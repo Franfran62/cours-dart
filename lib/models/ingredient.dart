@@ -1,8 +1,12 @@
 class Ingredient {
 
   String name; 
-  String description;
   bool vegan; 
 
-  Ingredient({required this.name, required this.description, required this.vegan});
+  Ingredient({required this.name, required this.vegan});
+
+@override
+  String toString() {
+    return this.name;
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:cours_flutter/models/ingredient.dart';
+import 'package:cours_flutter/models/size.dart';
 
 class Pizza {
 
@@ -6,24 +7,15 @@ class Pizza {
   List<Ingredient> ingredients;
   bool vegan = true;
   num price; 
+  Size size;
+  String image;
 
-  Pizza({required this.name, required this.ingredients, required this.price}) {
+  Pizza({required this.name, required this.ingredients, required this.price, required this.size, required this.image}) {
     this.setVeganInfos();
   }
 
-  String isVegan() {
-    return "La pizza $name est veggie ? => $vegan";
-  }
-
   String displayIngredients() {
-    String response = "";
-    for (var i = 0; i < ingredients.length; i++) {
-        response += ingredients[i].name;
-        if (i != ingredients.length) {
-          response += ", ";
-        }
-    }
-    return response;
+    return ingredients.join(", ");
   }
 
   void setVeganInfos() {

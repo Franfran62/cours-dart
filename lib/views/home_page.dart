@@ -1,5 +1,8 @@
+import 'package:cours_flutter/base/base_scaffold.dart';
 import 'package:cours_flutter/models/ingredient.dart';
 import 'package:cours_flutter/models/pizza.dart';
+import 'package:cours_flutter/models/size.dart';
+import 'package:cours_flutter/widgets/pizza_card.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -10,67 +13,78 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
   @override
   Widget build(BuildContext context) {
-    Ingredient ingredient = Ingredient(
-        name: "fromage",
-        description: "Le fromage français, c'est bon",
+    Ingredient cheese = Ingredient(
+        name: "cheese",
         vegan: true);
-    Ingredient ingredient2 = Ingredient(
-        name: "tomate",
-        description: "La tomate espagnole, c'est bon",
+    Ingredient onion = Ingredient(
+        name: "onion",
         vegan: true);
-    Ingredient ingredient3 = Ingredient(
-        name: "viande",
-        description: "La viande, on aime ou on n'aime pas",
-        vegan: false);
+    Ingredient tomato = Ingredient(
+        name: "tomato pure",
+        vegan: true);
+    Ingredient hungarian = Ingredient(
+        name: "hungarian",
+        vegan: true);
+    Ingredient pepper = Ingredient(
+        name: "pepper",
+        vegan: true);
+    Ingredient paneer = Ingredient(
+        name: "paneer",
+        vegan: true);
+    Ingredient capsicum = Ingredient(
+        name: "capsicum",
+        vegan: true);  
+    Ingredient chicken = Ingredient(
+        name: "chicken",
+        vegan: false); 
 
     List<Pizza> pizzas = [
       Pizza(
-        name: "La viandard",
-        ingredients: [ingredient, ingredient2, ingredient3],
-        price: 11,
+        name: "Margarita",
+        ingredients: [cheese, onion, tomato],
+        price: 12,
+        size: Size.Medium,
+        image: "assets/pizza-margarita.png"
       ),
       Pizza(
-        name: "La Veggie",
-        ingredients: [ingredient, ingredient2],
-        price: 9,
-      ),
-      Pizza(
-        name: "La Pas Ouf",
+        name: "Classic Pepporoni",
         ingredients: [
-          ingredient,
+          cheese, hungarian, pepper, paneer, capsicum, onion
         ],
-        price: 178,
+        price: 12,
+        size: Size.Medium,
+        image: "assets/pizza-margarita.png"
+      ),
+      Pizza(
+        name: "Chicken Supreme",
+        ingredients: [
+          cheese, onion, tomato, chicken
+        ],
+        price: 12,
+        size: Size.Medium,
+        image: "assets/pizza-margarita.png"
+      ),
+      Pizza(
+        name: "Vegetarian",
+        ingredients: [
+          cheese, onion, tomato
+        ],
+        price: 12,
+        size: Size.Medium,
+        image: "assets/pizza-margarita.png"
       )
     ];
 
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: const Text("Exercice Liste des pizzas"),
-        ),
-        body: ListView(
+    return Basescaffold(
+        title: "ForEach Pizza",
+        body:ListView(
           children: pizzas
-              .map((pizza) => Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
-                  child: Column(children: [
-                    Row(
-                      children: [
-                        Text(pizza.name),
-                        if (pizza.vegan)
-                          const Icon(
-                            Icons.grass,
-                            color: Colors.green,
-                            size: 30.0,
-                          )
-                      ],
-                    ),
-                    Row(
-                      children: [Text(pizza.displayIngredients())],
-                    )
-                  ])))
+              .map((pizza) => PizzaCard(pizza: pizza))
               .toList(),
-        ));
+        )
+    );
   }
 }
