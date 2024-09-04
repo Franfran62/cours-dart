@@ -1,7 +1,6 @@
 import 'package:cours_flutter/base/base_scaffold.dart';
 import 'package:cours_flutter/models/promo.dart';
 import 'package:cours_flutter/models/user.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MyInscriptionPage extends StatefulWidget {
@@ -21,6 +20,19 @@ class _MyInscriptionPageState extends State<MyInscriptionPage> {
     final _usernameController = TextEditingController();
     final _passwordController = TextEditingController();
     Promo? promotion;
+
+    InputDecoration setInputDecoration(Icon icon, String labelText) {
+      return InputDecoration(
+        labelText: labelText,
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Theme.of(context).primaryColor, width: 2.0),
+        ),
+        border: const UnderlineInputBorder(),
+        iconColor: Theme.of(context).primaryColor,
+        icon: icon,
+        errorStyle: TextStyle(color: Colors.red),
+      );
+    }
 
     void submitForm() {
       if (_formInscriptionKey.currentState != null &&
@@ -47,12 +59,12 @@ class _MyInscriptionPageState extends State<MyInscriptionPage> {
         body: Form(
           key: _formInscriptionKey,
             child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(25.0),
                 child: Column(
                   children: [
                     TextFormField(
                       controller: _emailController,
-                      decoration: const InputDecoration( labelText: "Email"),
+                      decoration: setInputDecoration(Icon(Icons.email), "Email"),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Veuillez saisir votre email";
@@ -65,7 +77,7 @@ class _MyInscriptionPageState extends State<MyInscriptionPage> {
                     ),
                     TextFormField(
                       controller: _usernameController,
-                      decoration: InputDecoration(labelText: "Nom d\'utilisateur"),
+                      decoration: setInputDecoration(Icon(Icons.account_circle_rounded), "Nom d'\'utilisateur"),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Veuillez saisir un nom d\'utilisateur";
@@ -75,7 +87,7 @@ class _MyInscriptionPageState extends State<MyInscriptionPage> {
                     ),
                     TextFormField(
                       controller: _passwordController,
-                      decoration: const InputDecoration(labelText: "Mot de passe"),
+                      decoration: setInputDecoration(Icon(Icons.password), "Mot de passe"),
                       obscureText: true,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -90,7 +102,7 @@ class _MyInscriptionPageState extends State<MyInscriptionPage> {
                       },
                     ),
                     DropdownButtonFormField(
-                        decoration: const InputDecoration(labelText: "Promotion"),
+                        decoration: setInputDecoration(Icon(Icons.grade), "Promotion"),
                         value: promotion,
                         items: Promo.values.map((promo) {
                           return DropdownMenuItem<Promo>(
