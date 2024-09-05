@@ -1,34 +1,36 @@
+import 'package:cours_flutter/base/menu.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Basescaffold extends StatelessWidget {
-  final String title;
   final Widget body;
+  dynamic _scaffoldKey;
 
-  const Basescaffold({
+  Basescaffold({
     super.key,
-    required this.title,
-    required this.body,
-  });
+    required this.body
+  }) {
+     _scaffoldKey = GlobalKey<ScaffoldState>();
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: IconButton(icon: const Icon(Icons.menu), onPressed: () {}),
-          title: Row(
-            children: [
-              const Image(image: AssetImage("assets/logo-foreach.png")),
-              Text(title),
-              IconButton(onPressed: () => {
-                Navigator.of(context).pushNamed("/inscription")
-              }, icon: const Icon((Icons.app_registration)))
-            ],
-          )
-      ),
-        body: body
-    );
+    return  Scaffold(
+        key: _scaffoldKey,
+        drawer: Menu(),
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          leading: IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: () {
+                _scaffoldKey.currentState?.openDrawer();
+              }
+          ),
+        ),
+          body: body
+      );
   }
 }
 

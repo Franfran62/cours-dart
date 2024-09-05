@@ -1,12 +1,16 @@
 import 'package:cours_flutter/models/pizza.dart';
+import 'package:cours_flutter/providers/CartProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PizzaCard extends StatelessWidget {
+class PizzaCard extends ConsumerWidget {
+
   final Pizza pizza;
   const PizzaCard({super.key, required this.pizza});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+
     return SizedBox(
         width: MediaQuery.of(context).size.width * 0.80,
         height: MediaQuery.of(context).size.height / 6,
@@ -54,12 +58,11 @@ class PizzaCard extends StatelessWidget {
               Align(
                   alignment: Alignment.bottomRight,
                   child: ElevatedButton(
-                    onPressed: () => {print("coucou")},
-                    style: ButtonStyle(
+                    onPressed: () => ref.watch(cartProvider.notifier).addPizza(pizza),
+                    style: const ButtonStyle(
                       backgroundColor: WidgetStatePropertyAll<Color>(Colors.orangeAccent),
-
                     ),
-                    child: Row(
+                    child: const Row(
                       children: [
                         Text("Add "),
                         Icon(Icons.add)

@@ -1,90 +1,60 @@
 import 'package:cours_flutter/base/base_scaffold.dart';
-import 'package:cours_flutter/models/ingredient.dart';
-import 'package:cours_flutter/models/pizza.dart';
-import 'package:cours_flutter/models/size.dart';
 import 'package:cours_flutter/widgets/pizza_card.dart';
+import 'package:cours_flutter/providers/CartProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:cours_flutter/constants/bdd.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MyHomePage extends StatefulWidget {
+class MyHomePage extends ConsumerStatefulWidget {
   const MyHomePage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  ConsumerState<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends ConsumerState<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    Ingredient cheese = Ingredient(
-        name: "cheese",
-        vegan: true);
-    Ingredient onion = Ingredient(
-        name: "onion",
-        vegan: true);
-    Ingredient tomato = Ingredient(
-        name: "tomato pure",
-        vegan: true);
-    Ingredient hungarian = Ingredient(
-        name: "hungarian",
-        vegan: true);
-    Ingredient pepper = Ingredient(
-        name: "pepper",
-        vegan: true);
-    Ingredient paneer = Ingredient(
-        name: "paneer",
-        vegan: true);
-    Ingredient capsicum = Ingredient(
-        name: "capsicum",
-        vegan: true);  
-    Ingredient chicken = Ingredient(
-        name: "chicken",
-        vegan: false); 
 
-    List<Pizza> pizzas = [
-      Pizza(
-        name: "Margarita",
-        ingredients: [cheese, onion, tomato],
-        price: 12,
-        size: Size.Medium,
-        image: "assets/pizza-margarita.png"
-      ),
-      Pizza(
-        name: "Classic Pepporoni",
-        ingredients: [
-          cheese, hungarian, pepper, paneer, capsicum, onion
-        ],
-        price: 12,
-        size: Size.Medium,
-        image: "assets/pizza-margarita.png"
-      ),
-      Pizza(
-        name: "Chicken Supreme",
-        ingredients: [
-          cheese, onion, tomato, chicken
-        ],
-        price: 12,
-        size: Size.Medium,
-        image: "assets/pizza-margarita.png"
-      ),
-      Pizza(
-        name: "Vegetarian",
-        ingredients: [
-          cheese, onion, tomato
-        ],
-        price: 12,
-        size: Size.Medium,
-        image: "assets/pizza-margarita.png"
-      )
-    ];
+    final cart = ref.watch(cartProvider);
 
     return Basescaffold(
-        title: "ForEach Pizza",
-        body:ListView(
-          children: pizzas
-              .map((pizza) => PizzaCard(pizza: pizza))
-              .toList(),
-        )
+        body: Column(
+                children: [
+                  // Wrap(
+                  //   spacing: 8.0,
+                  //   children: ingredients.map((ingredient) {
+                  //     return FilterChip(
+                  //       label: Text(ingredient.name),
+                  //       onSelected: (bool selected) {
+                  //         ref.watch(pizzaProvider.notifier).filterByIngredient(
+                  //             ingredient, selected);
+                  //       },
+                  //     );
+                  //   }).toList(),
+                  // ),
+                  ListView(
+                    shrinkWrap: true,
+                    children: pizzas.map((pizza) =>
+                        PizzaCard(pizza: pizza))
+                        .toList(),
+                  ),
+                  Container(
+                    width: 80,
+                    padding: EdgeInsets.only(top: 20),
+                    child: ElevatedButton(
+                        onPressed: () {  print("un jour, tu seras redirigé vers le panier"); },
+                        child: Row(
+                          children: [
+                            Text(cart.length.toString()),
+                            const Icon(Icons.shopping_cart),
+                          ]
+                        ),
+                    ),
+                  ),
+                ],
+          ),
     );
   }
 }
