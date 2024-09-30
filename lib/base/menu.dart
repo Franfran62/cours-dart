@@ -3,7 +3,7 @@ import 'package:cours_flutter/views/register_page.dart';
 import 'package:flutter/material.dart';
 
 class Menu extends StatefulWidget {
-  const Menu({Key? key}) : super(key: key);
+  const Menu({super.key});
 
   @override
   State<Menu> createState() => _MenuState();
@@ -14,6 +14,7 @@ class _MenuState extends State<Menu> {
   final List<Map<String,String>> roads = [
     {"title": "Home", "path": "/"},
     {"title": "Inscription", "path": "/inscription"},
+    {"title": "panier", "path": "/panier"},
   ];
 
   @override

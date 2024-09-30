@@ -19,7 +19,7 @@ class Basescaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return  Scaffold(
         key: _scaffoldKey,
-        drawer: Menu(),
+        drawer: const Menu(),
         appBar: AppBar(
           backgroundColor: Colors.white,
           leading: IconButton(

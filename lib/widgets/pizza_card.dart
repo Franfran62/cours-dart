@@ -30,7 +30,7 @@ class PizzaCard extends ConsumerWidget {
                   )),
               Expanded(
                 child : Padding(
-                padding: EdgeInsets.only(left: 20, top: 5),
+                padding: const EdgeInsets.only(left: 20, top: 5),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -40,13 +40,6 @@ class PizzaCard extends ConsumerWidget {
                           fontSize: 20, fontWeight: FontWeight.w600),
                       maxLines: 1,
                     ),
-                    Text(
-                        softWrap: true,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        pizza.displayIngredients(),
-                        style: const TextStyle(fontStyle: FontStyle.italic),
-                      ),
                     Text(
                       "${pizza.price}€",
                       style: const TextStyle(fontSize: 18),
@@ -58,7 +51,7 @@ class PizzaCard extends ConsumerWidget {
               Align(
                   alignment: Alignment.bottomRight,
                   child: ElevatedButton(
-                    onPressed: () => ref.watch(cartProvider.notifier).addPizza(pizza),
+                    onPressed: () => ref.watch(cartProvider.notifier).add(pizza),
                     style: const ButtonStyle(
                       backgroundColor: WidgetStatePropertyAll<Color>(Colors.orangeAccent),
                     ),

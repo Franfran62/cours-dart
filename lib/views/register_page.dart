@@ -27,7 +27,7 @@ class _MyInscriptionPageState extends State<MyInscriptionPage> {
       border: const UnderlineInputBorder(),
       iconColor: Theme.of(context).primaryColor,
       icon: icon,
-      errorStyle: TextStyle(color: Colors.red),
+      errorStyle: const TextStyle(color: Colors.red),
     );
   }
 
@@ -46,7 +46,7 @@ class _MyInscriptionPageState extends State<MyInscriptionPage> {
 
       ScaffoldMessenger.of(context)
           .showSnackBar(
-          const SnackBar(content: Text("Formulaire Soumis !"))
+          const SnackBar(content: Text("Inscription réussie !"))
       );
     }
   }
@@ -62,7 +62,7 @@ class _MyInscriptionPageState extends State<MyInscriptionPage> {
             children: [
               const Padding(
                 padding: EdgeInsets.only(top: 40),
-                child: const Text(
+                child: Text(
                     "Créer un compte",
                   style: TextStyle(
                     fontSize: 22,
@@ -74,7 +74,7 @@ class _MyInscriptionPageState extends State<MyInscriptionPage> {
               Form(
                   key: _formInscriptionKey,
                   child: Padding(
-                      padding: const EdgeInsets.all(25.0),
+                      padding: const EdgeInsets.only(top: 25.0, right: 100, left: 100),
                       child: Column(
                         children: [
                           TextFormField(
@@ -92,10 +92,10 @@ class _MyInscriptionPageState extends State<MyInscriptionPage> {
                           ),
                           TextFormField(
                             controller: _usernameController,
-                            decoration: setInputDecoration(const Icon(Icons.account_circle_rounded), "Nom d'\'utilisateur"),
+                            decoration: setInputDecoration(const Icon(Icons.account_circle_rounded), "Nom d''utilisateur"),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return "Veuillez saisir un nom d\'utilisateur";
+                                return "Veuillez saisir un nom d'utilisateur";
                               }
                               return null;
                             },
@@ -114,6 +114,7 @@ class _MyInscriptionPageState extends State<MyInscriptionPage> {
                               if (value.isNotEmpty && value.toLowerCase() == value) {
                                 return "Votre mot de passe doit comporter au moins 1 majuscule";
                               }
+                              return null;
                             },
                           ),
                           DropdownButtonFormField(
@@ -146,7 +147,7 @@ class _MyInscriptionPageState extends State<MyInscriptionPage> {
                                       backgroundColor: WidgetStatePropertyAll<Color>(Colors.orangeAccent)
                                   ),
                                   child: const Text(
-                                    "S\'inscrire",
+                                    "S'inscrire",
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.w600,
