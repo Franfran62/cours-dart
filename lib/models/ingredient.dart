@@ -1,8 +1,18 @@
 class Ingredient {
+  String name;
+  bool vegan;
 
-  String name; 
-  String description;
-  bool vegan; 
+  Ingredient({required this.name, required this.vegan});
 
-  Ingredient({required this.name, required this.description, required this.vegan});
+  static List<Ingredient> fromList(List<dynamic> snapshots) {
+    print(snapshots.first.toString());
+    return snapshots.map((ingredient) {
+      return Ingredient(name: ingredient.name, vegan: ingredient.vegan);
+    }).toList();
+  }
+
+  @override
+  String toString() {
+    return name;
+  }
 }
