@@ -1,8 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:math';
+
 import 'package:cours_flutter/base/base_scaffold.dart';
-import 'package:cours_flutter/base/menu.dart';
-import 'package:cours_flutter/models/pizza.dart';
-import 'package:cours_flutter/providers/cart_provider.dart';
 import 'package:cours_flutter/providers/pizza_provider.dart';
 import 'package:cours_flutter/widgets/cart_button.dart';
 import 'package:cours_flutter/widgets/pizza_card.dart';
@@ -29,7 +27,7 @@ class HomePage extends ConsumerWidget {
              const CartButton(),
             ],
           ), 
-          error: (err, stack) => const Text("Il y a eu une erreur ... (Un jour peut-être, tu sauras le message d'erreur)"), 
+          error: (err, stack) => Text(err.toString()), 
           loading: () => const CircularProgressIndicator(),
         ),
     );

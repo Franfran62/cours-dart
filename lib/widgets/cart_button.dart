@@ -1,5 +1,3 @@
-import 'package:cours_flutter/base/base_scaffold.dart';
-import 'package:cours_flutter/base/menu.dart';
 import 'package:cours_flutter/providers/cart_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

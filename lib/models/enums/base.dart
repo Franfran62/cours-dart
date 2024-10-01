@@ -1,0 +1,4 @@
+
+enum Base {
+  tomate, creme
+}
