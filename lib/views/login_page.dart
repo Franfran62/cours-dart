@@ -20,12 +20,12 @@ class LoginPage extends ConsumerWidget {
         if (_formInscriptionKey.currentState != null &&
             _formInscriptionKey.currentState!.validate()) {
 
-          bool registering = await ref.read(userProvider.notifier).login(
+          bool isLogged = await ref.read(userProvider.notifier).login(
             email: _emailController.text, 
             password: _passwordController.text
             );
 
-          if (registering) {
+          if (isLogged) {
             _formInscriptionKey.currentState!.reset();
             ScaffoldMessenger.of(context)
                 .showSnackBar(
@@ -46,7 +46,7 @@ class LoginPage extends ConsumerWidget {
               const Padding(
                 padding: EdgeInsets.only(top: 40),
                 child: Text(
-                    "Connexion",
+                    "Se connecter",
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w500
@@ -97,7 +97,7 @@ class LoginPage extends ConsumerWidget {
                                       backgroundColor: WidgetStatePropertyAll<Color>(Colors.orangeAccent)
                                   ),
                                   child: const Text(
-                                    "S'inscrire",
+                                    "Connexion",
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.w600,

@@ -17,7 +17,7 @@ class UserProvider extends StateNotifier<FirebaseAuth?>{
       state = FirebaseAuth.instance;
       if (state != null) {
         state!.authStateChanges().listen(
-          (User? user) {
+         (User? user) {
             if (user == null) {
               ref.read(firebaseUser.notifier).state = null;
             } else {
@@ -41,6 +41,17 @@ class UserProvider extends StateNotifier<FirebaseAuth?>{
       return false;
     }
 
+    Future<bool> logout() async {
+      try {
+        await state!.signOut();
+        ref.read(firebaseUser.notifier).state = null;
+        return true;
+      } on FirebaseAuthException catch (e) {
+        print(e.message);
+      }
+      return false;
+    }
+
     Future<bool> login({required String email, required String password}) async {
       try {
         await state!.signInWithEmailAndPassword(
@@ -53,5 +64,4 @@ class UserProvider extends StateNotifier<FirebaseAuth?>{
       }
       return false;
     }
-
 }

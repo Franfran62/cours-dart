@@ -1,10 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cours_flutter/providers/cart_provider.dart';
+import 'package:cours_flutter/providers/pizza_provider.dart';
 import 'package:cours_flutter/providers/user_provider.dart';
-import 'package:cours_flutter/views/cart_page.dart';
-import 'package:cours_flutter/views/home_page.dart';
-import 'package:cours_flutter/views/login_page.dart';
-import 'package:cours_flutter/views/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -16,7 +11,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends ConsumerWidget {

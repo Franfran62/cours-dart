@@ -1,75 +1,37 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cours_flutter/base/base_scaffold.dart';
+import 'package:cours_flutter/base/menu.dart';
 import 'package:cours_flutter/models/pizza.dart';
+import 'package:cours_flutter/providers/cart_provider.dart';
+import 'package:cours_flutter/providers/pizza_provider.dart';
+import 'package:cours_flutter/widgets/cart_button.dart';
 import 'package:cours_flutter/widgets/pizza_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MyHomePage extends ConsumerStatefulWidget {
-  const MyHomePage({super.key});
+class HomePage extends ConsumerWidget {
 
-  @override
-  ConsumerState<MyHomePage> createState() => _MyHomePageState();
-}
+  const HomePage({super.key});
 
-class _MyHomePageState extends ConsumerState<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    final cartStream = FirebaseFirestore.instance.collection('cart').snapshots();
-    final pizzaStream = FirebaseFirestore.instance.collection('pizza').get();
+    @override
+  Widget build(BuildContext context, WidgetRef ref) {
 
-    return FutureBuilder(
-        future: pizzaStream,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
-          } else if (snapshot.hasData) {
-            final firebasePizzas = snapshot.data!.docs;
-            return Basescaffold(
-              body: Column(
-                children: [
-                  ListView(
-                      shrinkWrap: true,
-                      children: firebasePizzas.map((doc) {
-                        final pizza = Pizza.fromQueryDocumentSnapshot(doc);
-                        return PizzaCard(pizza: pizza);
-                      }).toList()),
-                  Container(
-                    width: 80,
-                    padding: const EdgeInsets.only(top: 20),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pushNamed('/panier');
-                      },
-                      child: Row(children: [
-                        Expanded(
-                          child: StreamBuilder(
-                              stream: cartStream,
-                              builder: (context, snapshot) {
-                                if (snapshot.hasError ||
-                                    snapshot.connectionState == ConnectionState.done && snapshot.data == null) {
-                                  return const Text('0');
-                                }
-                                if (snapshot.connectionState == ConnectionState.waiting) {
-                                  return const CircularProgressIndicator();
-                                } else {
-                                  final cart = snapshot.data!.docs;
-                                  return Text(cart
-                                      .fold<double>(0, (previousValue, product) => previousValue + product['quantity'])
-                                      .toInt()
-                                      .toString());
-                                }
-                              }),
-                        ),
-                        const Icon(Icons.shopping_cart, size: 20),
-                      ]),
-                    ),
-                  ),
-                ],
+    final pizzaAsyncValue = ref.watch(pizzaProvider);
+
+    return Basescaffold(
+      body: pizzaAsyncValue.when(
+          data: (data) => Column(
+            children: [
+              ListView(
+                shrinkWrap: true,
+                children: data.map((pizza) => PizzaCard(pizza: pizza)).toList(),
               ),
-            );
-          }
-          return Basescaffold(body: Text('Error'));
-        });
+             const CartButton(),
+            ],
+          ), 
+          error: (err, stack) => const Text("Il y a eu une erreur ... (Un jour peut-être, tu sauras le message d'erreur)"), 
+          loading: () => const CircularProgressIndicator(),
+        ),
+    );
   }
 }
