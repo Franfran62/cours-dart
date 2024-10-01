@@ -28,18 +28,6 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
             return Basescaffold(
               body: Column(
                 children: [
-                  // Wrap(
-                  //   spacing: 8.0,
-                  //   children: ingredients.map((ingredient) {
-                  //     return FilterChip(
-                  //       label: Text(ingredient.name),
-                  //       onSelected: (bool selected) {
-                  //         ref.watch(pizzaProvider.notifier).filterByIngredient(
-                  //             ingredient, selected);
-                  //       },
-                  //     );
-                  //   }).toList(),
-                  // ),
                   ListView(
                       shrinkWrap: true,
                       children: firebasePizzas.map((doc) {
