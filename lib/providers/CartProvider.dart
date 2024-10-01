@@ -4,11 +4,11 @@ import 'package:cours_flutter/models/product.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 
-final cartStreamProvider = StreamProvider.autoDispose<List<Pizza>>((ref) {
+final cartStreamProvider = StreamProvider.autoDispose<List<Product>>((ref) {
   return FirebaseFirestore.instance
-      .collection('pizzas')
+      .collection('cart')
       .snapshots()
-      .map((snapshot) => snapshot.docs.map((doc) => Pizza.fromQueryDocumentSnapshot(doc)).toList());
+      .map((snapshot) => snapshot.docs.map((doc) => Product.fromQueryDocumentSnapshot(doc)).toList());
 });
 
 final cartProvider = StateNotifierProvider<CartNotifier, FirebaseFirestore>(

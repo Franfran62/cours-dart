@@ -16,7 +16,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final cartStream = FirebaseFirestore.instance.collection('cart').snapshots();
-    final pizzaStream = FirebaseFirestore.instance.collection('pizzas').get();
+    final pizzaStream = FirebaseFirestore.instance.collection('pizza').get();
 
     return FutureBuilder(
         future: pizzaStream,

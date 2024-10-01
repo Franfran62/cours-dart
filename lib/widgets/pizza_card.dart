@@ -23,7 +23,7 @@ class PizzaCard extends ConsumerWidget {
                 height: MediaQuery.of(context).size.height,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(15),
-                  child: Image(image: AssetImage('assets/${pizza.image}'), fit: BoxFit.fitHeight),
+                  child: Image(image: AssetImage(pizza.image), fit: BoxFit.fitHeight),
                 )),
             Expanded(
               child: Padding(
