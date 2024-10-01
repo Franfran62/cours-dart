@@ -3,8 +3,17 @@ import 'package:cours_flutter/models/pizza.dart';
 import 'package:cours_flutter/models/product.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+
+final cartStreamProvider = StreamProvider.autoDispose<List<Pizza>>((ref) {
+  return FirebaseFirestore.instance
+      .collection('pizzas')
+      .snapshots()
+      .map((snapshot) => snapshot.docs.map((doc) => Pizza.fromQueryDocumentSnapshot(doc)).toList());
+});
+
 final cartProvider = StateNotifierProvider<CartNotifier, FirebaseFirestore>(
     (ref) => CartNotifier());
+
 
 class CartNotifier extends StateNotifier<FirebaseFirestore> {
   CartNotifier() : super(FirebaseFirestore.instance);
@@ -31,6 +40,7 @@ class CartNotifier extends StateNotifier<FirebaseFirestore> {
         .where('size', isEqualTo: product.size.name)
         .limit(1)
         .get();
+
 
     return querySnapshot.docs.isNotEmpty
         ? Product.fromQueryDocumentSnapshot(querySnapshot.docs.first)

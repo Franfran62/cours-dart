@@ -13,71 +13,63 @@ class MyHomePage extends ConsumerStatefulWidget {
 }
 
 class _MyHomePageState extends ConsumerState<MyHomePage> {
-
-
   @override
   Widget build(BuildContext context) {
+    final cartStream = FirebaseFirestore.instance.collection('cart').snapshots();
+    final pizzaStream = FirebaseFirestore.instance.collection('pizzas').get();
 
-    Stream<QuerySnapshot> cartStream = FirebaseFirestore.instance.collection('cart').snapshots();
-    final pizzaStream = FirebaseFirestore.instance.collection('pizza').get();
-
-    return FutureBuilder<QuerySnapshot>(
-      future: pizzaStream,
-      builder: (context, snapshot) {
-        if (snapshot.hasError || (snapshot.connectionState == ConnectionState.waiting && snapshot.data == null)) {
-            return const Text('Error');
-          }
+    return FutureBuilder(
+        future: pizzaStream,
+        builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularProgressIndicator();
-          } else if (snapshot.hasData){
+          } else if (snapshot.hasData) {
             final firebasePizzas = snapshot.data!.docs;
             return Basescaffold(
-                body: Column(
-                        children: [
-                          ListView(
-                            shrinkWrap: true,
-                            children: 
-                              firebasePizzas.map((doc) {
-                              final pizza = Pizza.fromQueryDocumentSnapshot(doc);
-                                return PizzaCard(pizza: pizza);
-                              }).toList()              
-                          ),
-                          Container(
-                            width: 100,
-                            padding: const EdgeInsets.only(top: 20),
-                            child: ElevatedButton(
-                                onPressed: () {
-                                  Navigator.of(context).pushNamed('/panier');
-                                },
-                                child: Row(
-                                  children: [
-                                    StreamBuilder(
-                                        stream: cartStream, 
-                                        builder: (context, snapshot) {
-                                          if (snapshot.hasError || snapshot.data == null) {
-                                            return const Text('0');
-                                          }
-                                          if (snapshot.connectionState == ConnectionState.waiting) {
-                                            return const CircularProgressIndicator();
-                                          } else {
-                                            final cart = snapshot.data!.docs;
-                                            return Text(cart.fold<double>
-                                              (0, (previousValue, product) => previousValue + product['quantity']).toInt().toString()
-                                              );
-                                          }
-                                        }),
-                                  const Icon(Icons.shopping_cart),
-                                  ]
-                                ),
-                            ),
-                          ),
-                        ],
+              body: Column(
+                children: [
+                  ListView(
+                      shrinkWrap: true,
+                      children: firebasePizzas.map((doc) {
+                        final pizza = Pizza.fromQueryDocumentSnapshot(doc);
+                        return PizzaCard(pizza: pizza);
+                      }).toList()),
+                  Container(
+                    width: 80,
+                    padding: const EdgeInsets.only(top: 20),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pushNamed('/panier');
+                      },
+                      child: Row(children: [
+                        Expanded(
+                          child: StreamBuilder(
+                              stream: cartStream,
+                              builder: (context, snapshot) {
+                                if (snapshot.hasError ||
+                                    snapshot.connectionState == ConnectionState.done && snapshot.data == null) {
+                                  return const Text('0');
+                                }
+                                if (snapshot.connectionState == ConnectionState.waiting) {
+                                  return const CircularProgressIndicator();
+                                } else {
+                                  final cart = snapshot.data!.docs;
+                                  return Text(cart
+                                      .fold<double>(0, (previousValue, product) => previousValue + product['quantity'])
+                                      .toInt()
+                                      .toString());
+                                }
+                              }),
+                        ),
+                        const Icon(Icons.shopping_cart, size: 20),
+                      ]),
+                    ),
                   ),
+                ],
+              ),
             );
           }
-          return const Text("Erreur :/"); // Add this line to handle unexpected cases
-      }
-    );
- 
+          return Basescaffold(body: Text('Error'));
+        });
   }
 }
