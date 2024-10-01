@@ -1,6 +1,7 @@
 import 'package:cours_flutter/models/product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:cours_flutter/providers/CartProvider.dart';
 
 class PanierCard extends ConsumerWidget {
 
@@ -49,6 +50,12 @@ class PanierCard extends ConsumerWidget {
                     fontSize: 16,
                   ),
                 ),
+                IconButton(
+                  onPressed: () => ref.read(cartProvider.notifier).remove(product), 
+                  icon: const Icon(Icons.remove_circle_outline),
+                  ),
+
+                
               ],
             ),
           ],

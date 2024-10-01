@@ -1,5 +1,7 @@
+import 'package:cours_flutter/providers/UserProvider.dart';
 import 'package:cours_flutter/views/cart_page.dart';
 import 'package:cours_flutter/views/home_page.dart';
+import 'package:cours_flutter/views/login_page.dart';
 import 'package:cours_flutter/views/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,7 +22,8 @@ class MyApp extends StatelessWidget {
 
   static final Map<String, WidgetBuilder> routes = {
     '/': (context) => const MyHomePage(),
-    '/inscription': (context) => const MyInscriptionPage(),
+    '/inscription': (context) => const RegisterPage(),
+    '/connexion': (context) => LoginPage(),
     '/panier': (context) => const CartPage(),
   };
 

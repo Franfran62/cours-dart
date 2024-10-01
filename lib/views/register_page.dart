@@ -1,16 +1,19 @@
 import 'package:cours_flutter/base/base_scaffold.dart';
 import 'package:cours_flutter/models/promo.dart';
 import 'package:cours_flutter/models/user.dart';
+import 'package:cours_flutter/providers/UserProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MyInscriptionPage extends StatefulWidget {
-  const MyInscriptionPage({super.key});
+class RegisterPage extends ConsumerStatefulWidget {
+
+  const RegisterPage({super.key});
 
   @override
-  State<MyInscriptionPage> createState() => _MyInscriptionPageState();
+  ConsumerState<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _MyInscriptionPageState extends State<MyInscriptionPage> {
+class _RegisterPageState extends ConsumerState<RegisterPage> {
 
   final _formInscriptionKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
@@ -31,7 +34,7 @@ class _MyInscriptionPageState extends State<MyInscriptionPage> {
     );
   }
 
-  void submitForm() {
+  void submitForm() async {
     if (_formInscriptionKey.currentState != null &&
         _formInscriptionKey.currentState!.validate()) {
 
@@ -41,13 +44,16 @@ class _MyInscriptionPageState extends State<MyInscriptionPage> {
           password: _passwordController.text,
           promo: promotion!
       );
+      ref.read(userProvider.notifier).initialize();
+      bool registering = await ref.read(userProvider.notifier).register(user: newUser);
 
-      _formInscriptionKey.currentState!.reset();
-
-      ScaffoldMessenger.of(context)
-          .showSnackBar(
-          const SnackBar(content: Text("Inscription réussie !"))
-      );
+      if (registering) {
+        _formInscriptionKey.currentState!.reset();
+        ScaffoldMessenger.of(context)
+            .showSnackBar(
+            const SnackBar(content: Text("Inscription réussie !"))
+        );
+      }
     }
   }
 
@@ -153,7 +159,9 @@ class _MyInscriptionPageState extends State<MyInscriptionPage> {
                                         fontWeight: FontWeight.w600,
                                         fontSize: 18
                                     ),
-                                  )))
+                                  )
+                                )
+                              )
                         ],
                       ))),
             ],
