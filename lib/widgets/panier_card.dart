@@ -1,9 +1,9 @@
 import 'package:cours_flutter/models/product.dart';
+import 'package:cours_flutter/providers/CartProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PanierCard extends ConsumerWidget {
-
   final Product product;
 
   const PanierCard({
@@ -38,13 +38,20 @@ class PanierCard extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 5),
-                Text(
-                  'Quantité: ${product.quantity}',
-                  style: const TextStyle(
-                    fontSize: 16,
-                  ),
+                Row(
+                  children: [
+                    Text(
+                      'Quantité: ${product.quantity}',
+                      style: const TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                    IconButton(
+                        onPressed: () => ref.read(cartProvider.notifier).remove(product), icon: Icon(Icons.remove))
+                  ],
                 ),
-                Text('${product.totalPrice}€',
+                Text(
+                  '${product.totalPrice}€',
                   style: const TextStyle(
                     fontSize: 16,
                   ),
