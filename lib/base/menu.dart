@@ -14,7 +14,8 @@ class _MenuState extends State<Menu> {
   final List<Map<String,String>> roads = [
     {"title": "Home", "path": "/"},
     {"title": "Inscription", "path": "/inscription"},
-    {"title": "panier", "path": "/panier"},
+    {"title": "Connexion", "path": "/connexion"},
+    {"title": "Panier", "path": "/panier"},
   ];
 
   @override

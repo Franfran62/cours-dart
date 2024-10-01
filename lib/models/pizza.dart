@@ -16,7 +16,7 @@ class Pizza {
    
     return Pizza(
       name: snapshot['name'], 
-    //  ingredients: Ingredient.fromList(snapshot['ingredient']), 
+      ingredients: Ingredient.fromList(snapshot['ingredient']), 
       price: snapshot['price'], 
       size: Size.values.firstWhere((e) => e.name == snapshot['size']), 
       image: snapshot['image']);

@@ -21,7 +21,7 @@ class _CartPageState extends ConsumerState<CartPage> {
   @override
   Widget build(BuildContext context) {
 
-    Stream<QuerySnapshot> cartStream = FirebaseFirestore.instance.collection('cart').get().asStream();
+    Stream<QuerySnapshot> cartStream = FirebaseFirestore.instance.collection('cart').snapshots();
 
     return StreamBuilder<QuerySnapshot>(
       stream: cartStream,
