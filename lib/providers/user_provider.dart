@@ -5,13 +5,13 @@ import 'package:cours_flutter/models/user.dart' as app;
 final firebaseUser = StateProvider<User?>((ref) => null);
 
 final userProvider =
-    StateNotifierProvider<Userprovider, FirebaseAuth?>((ref) => Userprovider(ref));
+    StateNotifierProvider<UserProvider, FirebaseAuth?>((ref) => UserProvider(ref));
 
 
-class Userprovider extends StateNotifier<FirebaseAuth?>{
+class UserProvider extends StateNotifier<FirebaseAuth?>{
 
   Ref ref;
-  Userprovider(this.ref) : super(null);
+  UserProvider(this.ref) : super(null);
 
     Future<void> initialize() async {
       state = FirebaseAuth.instance;

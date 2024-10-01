@@ -1,7 +1,7 @@
 import 'package:cours_flutter/base/base_scaffold.dart';
 import 'package:cours_flutter/models/promo.dart';
 import 'package:cours_flutter/models/user.dart';
-import 'package:cours_flutter/providers/UserProvider.dart';
+import 'package:cours_flutter/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -44,7 +44,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
           password: _passwordController.text,
           promo: promotion!
       );
-      ref.read(userProvider.notifier).initialize();
       bool registering = await ref.read(userProvider.notifier).register(user: newUser);
 
       if (registering) {

@@ -1,4 +1,6 @@
-import 'package:cours_flutter/providers/UserProvider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cours_flutter/providers/cart_provider.dart';
+import 'package:cours_flutter/providers/user_provider.dart';
 import 'package:cours_flutter/views/cart_page.dart';
 import 'package:cours_flutter/views/home_page.dart';
 import 'package:cours_flutter/views/login_page.dart';
@@ -17,28 +19,28 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
 
   const MyApp({super.key});
 
-  static final Map<String, WidgetBuilder> routes = {
-    '/': (context) => const MyHomePage(),
-    '/inscription': (context) => const RegisterPage(),
-    '/connexion': (context) => LoginPage(),
-    '/panier': (context) => const CartPage(),
-  };
-
   @override
-  Widget build(BuildContext context) {
-    return ProviderScope(
-      child: MaterialApp.router(
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
+  Widget build(BuildContext context, WidgetRef ref) {
+
+  Future.microtask(() {
+      ref.read(userProvider.notifier).initialize();
+    });
+    // Remonter les pizzas ça serait cool
+    //Stream pizzaStream = FirebaseFirestore.instance.collection('pizza').snapshots();
+
+    return  ProviderScope(
+        child: MaterialApp.router(
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            useMaterial3: true,
+          ),
+          routerConfig: router,
         ),
-        routerConfig: router,
-      ),
-    );
+      );
   }
 }
 

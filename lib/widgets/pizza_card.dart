@@ -1,5 +1,5 @@
 import 'package:cours_flutter/models/pizza.dart';
-import 'package:cours_flutter/providers/CartProvider.dart';
+import 'package:cours_flutter/providers/cart_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
