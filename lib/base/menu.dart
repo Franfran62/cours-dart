@@ -1,6 +1,6 @@
-import 'package:cours_flutter/views/home_page.dart';
-import 'package:cours_flutter/views/register_page.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import "../routes.dart";
 
 class Menu extends StatefulWidget {
   const Menu({super.key});
@@ -11,15 +11,9 @@ class Menu extends StatefulWidget {
 
 class _MenuState extends State<Menu> {
 
-  final List<Map<String,String>> roads = [
-    {"title": "Home", "path": "/"},
-    {"title": "Inscription", "path": "/inscription"},
-    {"title": "Connexion", "path": "/connexion"},
-    {"title": "Panier", "path": "/panier"},
-  ];
-
   @override
   Widget build(BuildContext context) {
+
     return Drawer(
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -32,11 +26,11 @@ class _MenuState extends State<Menu> {
           padding: const EdgeInsets.only(top: 40),
           child: Column(
             children: [
-              for (var road in roads)
+              for (var route in appRoutes)
                 ListTile(
-                  title: Text(road["title"]!),
+                  title: Text(route.name ?? route.path),
                   onTap: () => {
-                    Navigator.of(context).pushNamed(road["path"]!)
+                    context.go(route.path)
                   },
                 )
             ],
