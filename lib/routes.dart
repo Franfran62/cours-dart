@@ -1,4 +1,4 @@
-import 'package:cours_flutter/providers/user_provider.dart';
+import 'package:cours_flutter/providers/firebase_provider.dart';
 import 'package:cours_flutter/views/cart/cart_page.dart';
 import 'package:cours_flutter/views/home/home_page.dart';
 import 'package:cours_flutter/views/login/login_page.dart';
@@ -20,16 +20,16 @@ final List<GoRoute> appRoutes = [
 ];
 
 final List<GoRoute> connexionRoutes = [
-    GoRoute(
-      path: '/inscription',
-      name: "Inscription",
-      builder: (context, state) => const RegisterPage(),
-    ),
-    GoRoute(
-      path: '/connexion',
-      name: "Connexion",
-      builder: (context, state) => LoginPage(),
-    ),
+  GoRoute(
+    path: '/inscription',
+    name: "Inscription",
+    builder: (context, state) => const RegisterPage(),
+  ),
+  GoRoute(
+    path: '/connexion',
+    name: "Connexion",
+    builder: (context, state) => LoginPage(),
+  ),
 ];
 
 final List<GoRoute> deconnexionRoutes = [
@@ -38,7 +38,7 @@ final List<GoRoute> deconnexionRoutes = [
     name: "Deconnexion",
     builder: (context, state) {
       final ref = ProviderScope.containerOf(context).read;
-      ref(userProvider.notifier).logout();
+      ref(firebaseNotifier.notifier).logout();
       return LoginPage();
     },
   )

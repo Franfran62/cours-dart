@@ -1,5 +1,6 @@
 import 'package:cours_flutter/base/base_scaffold.dart';
 import 'package:cours_flutter/base/menu.dart';
+import 'package:cours_flutter/providers/firebase_provider.dart';
 import 'package:cours_flutter/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,10 +16,12 @@ class LoginPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     submitForm() async {
-      if (_formInscriptionKey.currentState != null && _formInscriptionKey.currentState!.validate()) {
+      if (_formInscriptionKey.currentState != null &&
+          _formInscriptionKey.currentState!.validate()) {
+
         bool isLogged = await ref
-            .read(userProvider.notifier)
-            .login(email: _emailController.text, password: _passwordController.text);
+            .read(userNotifier.notifier)
+            .loginInFirebase(email: _emailController.text, password: _passwordController.text);
 
         if (isLogged) {
           _formInscriptionKey.currentState!.reset();

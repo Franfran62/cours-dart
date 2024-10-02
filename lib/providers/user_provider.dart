@@ -1,67 +1,55 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cours_flutter/providers/firebase_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cours_flutter/models/user.dart' as app;
 
-final firebaseUser = StateProvider<User?>((ref) => null);
+final userProvider = StateProvider<app.User?>((ref) => null);
 
-final userProvider =
-    StateNotifierProvider<UserProvider, FirebaseAuth?>((ref) => UserProvider(ref));
+final userNotifier =
+    StateNotifierProvider<UserNotifier, app.User?>((ref) => UserNotifier(ref));
 
-
-class UserProvider extends StateNotifier<FirebaseAuth?>{
-
+class UserNotifier extends StateNotifier<app.User?> {
   Ref ref;
-  UserProvider(this.ref) : super(null);
+  UserNotifier(this.ref) : super(null);
 
-    Future<void> initialize() async {
-      state = FirebaseAuth.instance;
-      if (state != null) {
-        state!.authStateChanges().listen(
-         (User? user) {
-            if (user == null) {
-              ref.read(firebaseUser.notifier).state = null;
-            } else {
-              ref.read(firebaseUser.notifier).state = user;
-            }
-          },
-        );
-      }
-    }
-
-    Future<bool> register({required app.User user}) async {
-      try {
-        await state!.createUserWithEmailAndPassword(
-              email: user.email,
-              password: user.password,
-            );
+  Future<bool> registerInFirebase({required app.User user}) async {
+    await ref.read(firebaseNotifier.notifier).register(user: user).then((value) async {
+      if (value != null && value.user != null) {
+        await createNewUser(user: user);
         return true;
-      } on FirebaseAuthException catch (e) {
-        print(e.message);
+      }
+    }, onError: (error) => false);
+    return false;
+  }
+
+  Future<void> createNewUser({required app.User user}) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('user')
+          .add(user.toSnapshot());
+      state = user;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<bool> loginInFirebase({required String email, required String password}) async {
+    return await ref.read(firebaseNotifier.notifier).login(email: email, password: password).then((userCredential) async {
+      if (userCredential != null && userCredential.user != null) {
+        return await FirebaseFirestore.instance
+            .collection('user')
+            .where('email', isEqualTo: email)
+            .get()
+            .then((snapshot) {
+              if (snapshot.docs.isNotEmpty) {
+                state = app.User.fromQueryDocumentSnapshot(snapshot.docs.first);
+                return true;
+              }
+              return false;
+          }, onError: (error) => false);
       }
       return false;
-    }
-
-    Future<bool> logout() async {
-      try {
-        await state!.signOut();
-        ref.read(firebaseUser.notifier).state = null;
-        return true;
-      } on FirebaseAuthException catch (e) {
-        print(e.message);
-      }
-      return false;
-    }
-
-    Future<bool> login({required String email, required String password}) async {
-      try {
-        await state!.signInWithEmailAndPassword(
-          email: email,
-          password: password,
-        );
-        return true;
-      } on FirebaseAuthException catch (e) {
-        print(e.message);
-      }
-      return false;
-    }
+    }, onError: (error) =>  false
+  );
+ }
 }

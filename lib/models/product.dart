@@ -3,7 +3,6 @@ import 'package:cours_flutter/models/pizza.dart';
 import 'package:cours_flutter/models/enums/size.dart';
 
 class Product {
-
   String? id;
   String name;
   num totalPrice;
@@ -18,7 +17,7 @@ class Product {
     required this.quantity,
   });
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toSnapshot() {
     return {
       'id': id ?? "",
       'name': name,
