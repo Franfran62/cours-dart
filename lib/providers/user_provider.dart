@@ -5,8 +5,7 @@ import 'package:cours_flutter/models/user.dart' as app;
 
 final userProvider = StateProvider<app.User?>((ref) => null);
 
-final userNotifier =
-    StateNotifierProvider<UserNotifier, app.User?>((ref) => UserNotifier(ref));
+final userNotifier = StateNotifierProvider<UserNotifier, app.User?>((ref) => UserNotifier(ref));
 
 class UserNotifier extends StateNotifier<app.User?> {
   Ref ref;
@@ -15,6 +14,7 @@ class UserNotifier extends StateNotifier<app.User?> {
   Future<bool> registerInFirebase({required app.User user}) async {
     await ref.read(firebaseNotifier.notifier).register(user: user).then((value) async {
       if (value != null && value.user != null) {
+        user.id = value.user!.uid;
         await createNewUser(user: user);
         return true;
       }
@@ -24,9 +24,7 @@ class UserNotifier extends StateNotifier<app.User?> {
 
   Future<void> createNewUser({required app.User user}) async {
     try {
-      await FirebaseFirestore.instance
-          .collection('user')
-          .add(user.toSnapshot());
+      await FirebaseFirestore.instance.collection('user').doc(user.id).set(user.toSnapshot());
       state = user;
     } catch (e) {
       print(e);
@@ -34,22 +32,19 @@ class UserNotifier extends StateNotifier<app.User?> {
   }
 
   Future<bool> loginInFirebase({required String email, required String password}) async {
-    return await ref.read(firebaseNotifier.notifier).login(email: email, password: password).then((userCredential) async {
+    return await ref.read(firebaseNotifier.notifier).login(email: email, password: password).then(
+        (userCredential) async {
       if (userCredential != null && userCredential.user != null) {
-        return await FirebaseFirestore.instance
-            .collection('user')
-            .where('email', isEqualTo: email)
-            .get()
-            .then((snapshot) {
-              if (snapshot.docs.isNotEmpty) {
-                state = app.User.fromQueryDocumentSnapshot(snapshot.docs.first);
-                return true;
-              }
-              return false;
-          }, onError: (error) => false);
+        return await FirebaseFirestore.instance.collection('user').where('email', isEqualTo: email).get().then(
+            (snapshot) {
+          if (snapshot.docs.isNotEmpty) {
+            state = app.User.fromQueryDocumentSnapshot(snapshot.docs.first);
+            return true;
+          }
+          return false;
+        }, onError: (error) => false);
       }
       return false;
-    }, onError: (error) =>  false
-  );
- }
+    }, onError: (error) => false);
+  }
 }

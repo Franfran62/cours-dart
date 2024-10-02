@@ -1,7 +1,6 @@
 import 'package:cours_flutter/base/base_scaffold.dart';
 import 'package:cours_flutter/models/promo.dart';
 import 'package:cours_flutter/models/user.dart';
-import 'package:cours_flutter/providers/firebase_provider.dart';
 import 'package:cours_flutter/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,8 +23,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     return InputDecoration(
       labelText: labelText,
       focusedBorder: UnderlineInputBorder(
-        borderSide:
-            BorderSide(color: Theme.of(context).primaryColor, width: 2.0),
+        borderSide: BorderSide(color: Theme.of(context).primaryColor, width: 2.0),
       ),
       border: const UnderlineInputBorder(),
       iconColor: Theme.of(context).primaryColor,
@@ -35,21 +33,17 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   }
 
   void submitForm() async {
-    if (_formInscriptionKey.currentState != null &&
-        _formInscriptionKey.currentState!.validate()) {
+    if (_formInscriptionKey.currentState != null && _formInscriptionKey.currentState!.validate()) {
       User newUser = User(
           email: _emailController.text,
           username: _usernameController.text,
           password: _passwordController.text,
           promo: promotion!);
-      bool registering = await ref
-          .read(userNotifier.notifier)
-          .registerInFirebase(user: newUser);
+      bool registering = await ref.read(userNotifier.notifier).registerInFirebase(user: newUser);
 
       if (registering) {
         _formInscriptionKey.currentState!.reset();
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Inscription réussie !")));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Inscription réussie !")));
       }
     }
   }
@@ -71,14 +65,12 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
           Form(
               key: _formInscriptionKey,
               child: Padding(
-                  padding:
-                      const EdgeInsets.only(top: 25.0, right: 100, left: 100),
+                  padding: const EdgeInsets.only(top: 25.0, right: 100, left: 100),
                   child: Column(
                     children: [
                       TextFormField(
                         controller: _emailController,
-                        decoration: setInputDecoration(
-                            const Icon(Icons.email), "Email"),
+                        decoration: setInputDecoration(const Icon(Icons.email), "Email"),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "Veuillez saisir votre email";
@@ -91,9 +83,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       ),
                       TextFormField(
                         controller: _usernameController,
-                        decoration: setInputDecoration(
-                            const Icon(Icons.account_circle_rounded),
-                            "Nom d''utilisateur"),
+                        decoration: setInputDecoration(const Icon(Icons.account_circle_rounded), "Nom d''utilisateur"),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "Veuillez saisir un nom d'utilisateur";
@@ -103,8 +93,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       ),
                       TextFormField(
                         controller: _passwordController,
-                        decoration: setInputDecoration(
-                            const Icon(Icons.password), "Mot de passe"),
+                        decoration: setInputDecoration(const Icon(Icons.password), "Mot de passe"),
                         obscureText: true,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -113,16 +102,14 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           if (value.length < 6) {
                             return "Votre mot de passe doit comporter au moins 6 caractères";
                           }
-                          if (value.isNotEmpty &&
-                              value.toLowerCase() == value) {
+                          if (value.isNotEmpty && value.toLowerCase() == value) {
                             return "Votre mot de passe doit comporter au moins 1 majuscule";
                           }
                           return null;
                         },
                       ),
                       DropdownButtonFormField(
-                        decoration: setInputDecoration(
-                            const Icon(Icons.grade), "Promotion"),
+                        decoration: setInputDecoration(const Icon(Icons.grade), "Promotion"),
                         value: promotion,
                         items: Promo.values.map((promo) {
                           return DropdownMenuItem<Promo>(
@@ -147,15 +134,10 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           child: ElevatedButton(
                               onPressed: submitForm,
                               style: const ButtonStyle(
-                                  backgroundColor:
-                                      WidgetStatePropertyAll<Color>(
-                                          Colors.orangeAccent)),
+                                  backgroundColor: WidgetStatePropertyAll<Color>(Colors.orangeAccent)),
                               child: const Text(
                                 "S'inscrire",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 18),
+                                style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 18),
                               )))
                     ],
                   ))),
