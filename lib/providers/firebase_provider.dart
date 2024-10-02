@@ -26,11 +26,11 @@ class FirebaseProvider extends StateNotifier<FirebaseAuth?> {
     }
   }
 
-  Future<UserCredential?> register({required app.User user}) async {
+  Future<UserCredential?> register({required String email, required String password}) async {
     try {
       return await state!.createUserWithEmailAndPassword(
-        email: user.email,
-        password: user.password,
+        email: email,
+        password: password,
       );
     } on FirebaseAuthException catch (e) {
       print(e.message);

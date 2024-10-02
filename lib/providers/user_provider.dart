@@ -11,8 +11,8 @@ class UserNotifier extends StateNotifier<app.User?> {
   Ref ref;
   UserNotifier(this.ref) : super(null);
 
-  Future<bool> registerInFirebase({required app.User user}) async {
-    await ref.read(firebaseNotifier.notifier).register(user: user).then((value) async {
+  Future<bool> registerInFirebase({required app.User user, required String email, required String password}) async {
+    await ref.read(firebaseNotifier.notifier).register(email: email, password: password).then((value) async {
       if (value != null && value.user != null) {
         user.id = value.user!.uid;
         await createNewUser(user: user);
@@ -32,19 +32,18 @@ class UserNotifier extends StateNotifier<app.User?> {
   }
 
   Future<bool> loginInFirebase({required String email, required String password}) async {
-    return await ref.read(firebaseNotifier.notifier).login(email: email, password: password).then(
-        (userCredential) async {
+    try {
+      final userCredential = await ref.read(firebaseNotifier.notifier).login(email: email, password: password);
       if (userCredential != null && userCredential.user != null) {
-        return await FirebaseFirestore.instance.collection('user').where('email', isEqualTo: email).get().then(
-            (snapshot) {
-          if (snapshot.docs.isNotEmpty) {
-            state = app.User.fromQueryDocumentSnapshot(snapshot.docs.first);
-            return true;
-          }
-          return false;
-        }, onError: (error) => false);
+      final snapshot = await FirebaseFirestore.instance.collection('user').where('email', isEqualTo: email).get();
+      if (snapshot.docs.isNotEmpty) {
+        state = app.User.fromQueryDocumentSnapshot(snapshot.docs.first);
+        return true;
       }
-      return false;
-    }, onError: (error) => false);
+      }
+    } catch (error) {
+      print(error);
+    }
+    return false;
   }
 }

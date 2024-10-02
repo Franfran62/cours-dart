@@ -35,11 +35,12 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   void submitForm() async {
     if (_formInscriptionKey.currentState != null && _formInscriptionKey.currentState!.validate()) {
       User newUser = User(
-          email: _emailController.text,
-          username: _usernameController.text,
           password: _passwordController.text,
           promo: promotion!);
-      bool registering = await ref.read(userNotifier.notifier).registerInFirebase(user: newUser);
+      bool registering = await ref.read(userNotifier.notifier).registerInFirebase(
+        email: _emailController.text,
+        password: _passwordController.text,
+        user: newUser);
 
       if (registering) {
         _formInscriptionKey.currentState!.reset();
