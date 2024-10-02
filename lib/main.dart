@@ -23,9 +23,12 @@ class MyApp extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     useMemoized(
       () => {
-        ref.read(userProvider.notifier).initialize(),
-        ref.read(pizzaProviderNotifier.notifier).initialize(),
+        ref.read(pizzaProviderNotifier.notifier).loadPizzas(),
       },
+    );
+
+    Future.microtask(
+      () => ref.read(userProvider.notifier).initialize(),
     );
 
     return ProviderScope(

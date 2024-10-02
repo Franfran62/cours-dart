@@ -13,11 +13,12 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final pizzasList = ref.watch(pizzaProvider);
+    final pizzasList = ref.watch(pizzaProviderNotifier);
 
     return Basescaffold(
-        body: pizzasList.isNotEmpty
-            ? SingleChildScrollView(
+        body: ref.watch(loadingProvider)
+            ? const Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
                 child: Column(
                   children: [
                     const Padding(
@@ -28,16 +29,15 @@ class HomePage extends ConsumerWidget {
                       ),
                     ),
                     const DropDownSizeFilter(),
-                    ListView(
-                      shrinkWrap: true,
-                      children: pizzasList.map((pizza) => PizzaCard(pizza: pizza)).toList(),
-                    ),
+                    pizzasList.isNotEmpty
+                        ? ListView(
+                            shrinkWrap: true,
+                            children: pizzasList.map((pizza) => PizzaCard(pizza: pizza)).toList(),
+                          )
+                        : const Text('Aucune pizza trouvée'),
                     const CartButton(),
                   ],
                 ),
-              )
-            : ref.watch(loadingProvider)
-                ? const Center(child: CircularProgressIndicator())
-                : const Text('Aucune pizza trouvée'));
+              ));
   }
 }
