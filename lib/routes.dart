@@ -1,8 +1,8 @@
 import 'package:cours_flutter/providers/user_provider.dart';
-import 'package:cours_flutter/views/cart_page.dart';
-import 'package:cours_flutter/views/home_page.dart';
-import 'package:cours_flutter/views/login_page.dart';
-import 'package:cours_flutter/views/register_page.dart';
+import 'package:cours_flutter/views/cart/cart_page.dart';
+import 'package:cours_flutter/views/home/home_page.dart';
+import 'package:cours_flutter/views/login/login_page.dart';
+import 'package:cours_flutter/views/register/register_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

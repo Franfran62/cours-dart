@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cours_flutter/models/enums/base.dart';
 import 'package:cours_flutter/models/ingredient.dart';
-import 'package:cours_flutter/models/size.dart';
+import 'package:cours_flutter/models/enums/size.dart';
 
 class Pizza {
 
