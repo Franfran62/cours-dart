@@ -1,4 +1,5 @@
 import 'package:cours_flutter/providers/firebase_provider.dart';
+import 'package:cours_flutter/providers/user_provider.dart';
 import 'package:cours_flutter/views/cart/cart_page.dart';
 import 'package:cours_flutter/views/home/home_page.dart';
 import 'package:cours_flutter/views/login/login_page.dart';
@@ -38,7 +39,7 @@ final List<GoRoute> deconnexionRoutes = [
     name: "Deconnexion",
     builder: (context, state) {
       final ref = ProviderScope.containerOf(context).read;
-      ref(firebaseNotifier.notifier).logout();
+      ref(userNotifier.notifier).logoutFromFirebase();
       return LoginPage();
     },
   )

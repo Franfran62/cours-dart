@@ -3,23 +3,27 @@ import 'package:cours_flutter/models/promo.dart';
 
 class User {
   String? id;
-  final String password;
   Promo promo;
 
-  User({this.id, required this.password, required this.promo});
+  User({this.id, required this.promo});
 
   factory User.fromQueryDocumentSnapshot(QueryDocumentSnapshot doc) {
     return User(
       id: doc.id,
-      password: doc['password'],
       promo: Promo.values.firstWhere((e) => e.name == doc['promo']),
     );
   }
 
   Map<String, dynamic> toSnapshot() {
     return {
-      'password': password,
       'promo': promo.name,
     };
   }
+
+  factory User.fromSnapshot(Map<String, dynamic>? json, String id) {
+    return User(
+      id: id,
+      promo: Promo.values.firstWhere((e) => e.name == json?['promo']),
+    );
+  } 
 }

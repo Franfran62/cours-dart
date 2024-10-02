@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:cours_flutter/models/user.dart' as app;
 
 final firebaseProvider = StateProvider<User?>((ref) => null);
 
