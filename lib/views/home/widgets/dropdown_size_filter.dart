@@ -2,7 +2,6 @@ import 'package:cours_flutter/providers/pizza_provider.dart';
 import 'package:cours_flutter/models/enums/size.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class DropDownSizeFilter extends HookConsumerWidget {
@@ -27,12 +26,18 @@ class DropDownSizeFilter extends HookConsumerWidget {
               selectedSize.value = choice;
             },
             hint: const Text("Filtrez par taille"),
-            items: Size.values.map((Size el) {
+            items: [
+              const DropdownMenuItem(
+                value: null,
+                child: Text("Toutes les tailles")
+                ),
+              ...Size.values.map((Size el) {
               return DropdownMenuItem<Size>(
                 value: el,
                 child: Text(el.name.toString()),
               );
             }).toList(),
+            ]
           ),
         ],
       ),
