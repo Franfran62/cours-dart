@@ -4,36 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class DropDownSizeFilter extends ConsumerStatefulWidget {
-
   const DropDownSizeFilter({
-    super.key, 
+    super.key,
   });
 
-   @override
+  @override
   DropDownSizeFilterState createState() => DropDownSizeFilterState();
 }
 
 class DropDownSizeFilterState extends ConsumerState<DropDownSizeFilter> {
-
   Size? selectedSize;
-
-      getItems() {
-        var response = List<DropdownMenuItem<Size>>.empty(growable: true);
-
-        for (var value in Size.values) {
-            response.add(DropdownMenuItem<Size>(
-              value: value,
-              child: Text(value.toString().split('.').last),
-            )
-          );
-        }
-    }
 
   @override
   Widget build(BuildContext context) {
-
-    var items = getItems();
-
     return Padding(
       padding: const EdgeInsets.only(bottom: 10.0),
       child: Column(
@@ -42,20 +25,19 @@ class DropDownSizeFilterState extends ConsumerState<DropDownSizeFilter> {
           const SizedBox(height: 8),
           DropdownButton<Size>(
             value: selectedSize,
-            onChanged: (Size? choice) { 
-              ref.read(pizzaNotifier.notifier).filterBySize(size: choice);
+            onChanged: (Size? choice) {
+              ref.read(pizzaNotifierF.notifier).filterBySize(size: choice);
               setState(() {
                 selectedSize = choice;
               });
-              },
+            },
             hint: const Text("Filtrez par taille"),
-            items: Size.values.map((Size el) { 
+            items: Size.values.map((Size el) {
               return DropdownMenuItem<Size>(
                 value: el,
                 child: Text(el.name.toString()),
               );
-            }
-            ).toList(),
+            }).toList(),
           ),
         ],
       ),
