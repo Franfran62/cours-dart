@@ -9,40 +9,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomePage extends ConsumerWidget {
-
   const HomePage({super.key});
 
-    @override
+  @override
   Widget build(BuildContext context, WidgetRef ref) {
-
-    final pizzaAsyncValue = ref.watch(pizzaNotifier);
+    final pizzasList = ref.watch(pizzaProviderNotifier);
 
     return Basescaffold(
-      body: pizzaAsyncValue.when(
-          data: (data) => Column(
-            children: [
-              const Padding(
-                padding: EdgeInsets.only(top: 40, bottom: 20),
-                child: Text(
-                    "Nos pizzas",
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w500
-                  )
-                    ,
+        body: ref.watch(loadingProvider)
+            ? const Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(top: 40, bottom: 20),
+                      child: Text(
+                        "Nos pizzas",
+                        style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    const DropDownSizeFilter(),
+                    pizzasList.isNotEmpty
+                        ? ListView(
+                            shrinkWrap: true,
+                            children: pizzasList.map((pizza) => PizzaCard(pizza: pizza)).toList(),
+                          )
+                        : const Text('Aucune pizza trouvée'),
+                    const CartButton(),
+                  ],
                 ),
-              ),
-              const DropDownSizeFilter(),
-              ListView(
-                shrinkWrap: true,
-                children: data.map((pizza) => PizzaCard(pizza: pizza)).toList(),
-              ),
-             const CartButton(),
-            ],
-          ), 
-          error: (err, stack) => Text(err.toString()), 
-          loading: () => const CircularProgressIndicator(),
-        ),
-    );
+              ));
   }
 }

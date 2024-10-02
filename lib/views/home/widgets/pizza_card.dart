@@ -47,7 +47,7 @@ class PizzaCard extends ConsumerWidget {
             Align(
               alignment: Alignment.bottomRight,
               child: ElevatedButton(
-                  onPressed: () => ref.watch(cartProvider.notifier).add(pizza),
+                  onPressed: () => ref.watch(cartStreamProvider.notifier).add(pizza),
                   style: const ButtonStyle(
                     backgroundColor: WidgetStatePropertyAll<Color>(Colors.orangeAccent),
                   ),

@@ -3,50 +3,52 @@ import 'package:cours_flutter/models/enums/size.dart';
 import 'package:cours_flutter/models/pizza.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// Stream collectionStream = FirebaseFirestore.instance.collection('pizza').snapshots();
+final loadingProvider = StateProvider<bool>((ref) => true);
 
-final pizzaProvider = StreamProvider.autoDispose<List<Pizza>>((ref) {
-  return FirebaseFirestore.instance
-      .collection('pizza')
-      .get().asStream()
-      .map((snapshot) => snapshot.docs.map((doc) => Pizza.fromQueryDocumentSnapshot(doc)).toList());
-});
+final pizzaProviderNotifier = StateNotifierProvider<PizzaNotifier, List<Pizza>>((ref) => PizzaNotifier(ref));
 
-final pizzaNotifier = StateNotifierProvider<PizzaNotifier, AsyncValue<List<Pizza>>>((ref) {
-  return PizzaNotifier();
-});
+class PizzaNotifier extends StateNotifier<List<Pizza>> {
+  Ref ref;
 
-
-class PizzaNotifier extends StateNotifier<AsyncValue<List<Pizza>>> {
-
-  PizzaNotifier() : super(const AsyncValue.loading()) {
-    loadPizzas();
-  }
+  PizzaNotifier(this.ref) : super([]);
 
   Future<void> loadPizzas() async {
-    try {
-      final snapshot = await FirebaseFirestore.instance.collection('pizza').get();
-      state = AsyncValue.data(snapshot.docs.map((doc) => Pizza.fromQueryDocumentSnapshot(doc)).toList());
-    } catch (e) {
-      state = AsyncValue.error(e.toString(), StackTrace.current);
-    }
+    FirebaseFirestore.instance.collection('pizza').get().then((snapshots) {
+      state = List.from(
+        snapshots.docs
+            .map(
+              (doc) => Pizza.fromQueryDocumentSnapshot(doc),
+            )
+            .toList(),
+      );
+      ref.read(loadingProvider.notifier).state = false;
+    }, onError: (e) => print(e));
   }
-  Future<void> filterBySize({Size? size}) async {
+
+  Future<String?> filterBySize({Size? size}) async {
     try {
-      QuerySnapshot snapshot;
       if (size == null) {
-        snapshot = await FirebaseFirestore.instance.collection('pizza').get();
+        loadPizzas();
       } else {
-        snapshot = await FirebaseFirestore.instance.collection('pizza')
-                                                        .where('size', 
-                                                        isEqualTo: size.toString().split('.').last).get();
+        await FirebaseFirestore.instance
+            .collection('pizza')
+            .where('size', isEqualTo: size.toString().split('.').last)
+            .get()
+            .then(
+          (snapshots) {
+            state = List.from(
+              snapshots.docs
+                  .map(
+                    (doc) => Pizza.fromQueryDocumentSnapshot(doc),
+                  )
+                  .toList(),
+            );
+          },
+        );
       }
-      state = AsyncValue.data(snapshot.docs.map((doc) => Pizza.fromQueryDocumentSnapshot(doc)).toList());
     } catch (e) {
-      state = AsyncValue.error(e.toString(), StackTrace.current);
+      return ("Quelque chose s'est mal passé");
     }
+    return null;
   }
 }
-
-
-

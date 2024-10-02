@@ -55,11 +55,9 @@ class CartCard extends ConsumerWidget {
                   ),
                 ),
                 IconButton(
-                  onPressed: () => ref.read(cartProvider.notifier).remove(product), 
+                  onPressed: () => ref.read(cartStreamProvider.notifier).remove(product),
                   icon: const Icon(Icons.remove_circle_outline),
-                  ),
-
-                
+                ),
               ],
             ),
           ],
