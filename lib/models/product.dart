@@ -27,7 +27,7 @@ class Product {
     };
   }
 
-  factory Product.fromJson(Map<String, dynamic> json) {
+  factory Product.fromSnapshot(Map<String, dynamic> json) {
     return Product(
       id: json['id'] ?? "",
       name: json['name'],
@@ -35,6 +35,10 @@ class Product {
       size: Size.values.firstWhere((e) => e.name == json['size']),
       quantity: json['quantity'],
     );
+  }
+  
+  static List<Product> fromListSnapshot(List<dynamic> json) {
+    return json.map((e) => Product.fromSnapshot(e)).toList();  
   }
 
   factory Product.fromPizza({required Pizza pizza}) {

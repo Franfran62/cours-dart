@@ -1,6 +1,6 @@
-import 'package:cours_flutter/providers/firebase_provider.dart';
 import 'package:cours_flutter/providers/user_provider.dart';
 import 'package:cours_flutter/views/cart/cart_page.dart';
+import 'package:cours_flutter/views/command/command_page.dart';
 import 'package:cours_flutter/views/home/home_page.dart';
 import 'package:cours_flutter/views/login/login_page.dart';
 import 'package:cours_flutter/views/register/register_page.dart';
@@ -23,6 +23,14 @@ final List<GoRoute> appRoutes = [
     builder: (context, state) { 
       final ref = ProviderScope.containerOf(context).read;
       return ref(userNotifier) == null ? LoginPage() : const CartPage();
+    }
+  ),
+  GoRoute(
+    path: "/commande-du-jour",
+    name: "La commande du jour",
+    builder: (context, state) {
+      final ref = ProviderScope.containerOf(context).read;
+      return ref(userNotifier) == null ? LoginPage() : const CommandPage();
     }
   ),
 ];

@@ -37,7 +37,7 @@ class UserNotifier extends StateNotifier<app.User?> {
       if (userCredential != null && userCredential.user != null) {
       final snapshot = await FirebaseFirestore.instance.collection('user').doc(userCredential.user!.uid).get();
       if (snapshot.exists) {
-        state = app.User.fromSnapshot(snapshot.data(), userCredential.user!.uid);
+        state = app.User.fromSnapshot(snapshot.data());
         return true;
       }
       }
