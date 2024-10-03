@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:cours_flutter/base/base_scaffold.dart';
 import 'package:cours_flutter/providers/pizza_provider.dart';
 import 'package:cours_flutter/providers/user_provider.dart';
