@@ -11,13 +11,10 @@ class CommandStreamNotifier extends StreamNotifier<List<CommandUser>> {
 
   @override
   Stream<List<CommandUser>> build() {
-    final list =  FirebaseFirestore.instance.collection('command').snapshots().map(
+    return FirebaseFirestore.instance.collection('command').snapshots().map(
         (snapshot) => snapshot.docs
             .map((doc) => CommandUser.fromQueryDocumentSnapshot(doc))
             .toList());
-    print(list.first);
-    print(list);
-    return list;
   }
 
   Future<void> add({required CommandUser commandUser}) async {

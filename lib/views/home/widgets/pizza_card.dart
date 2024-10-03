@@ -1,5 +1,6 @@
 import 'package:cours_flutter/models/pizza.dart';
 import 'package:cours_flutter/providers/cart_provider.dart';
+import 'package:cours_flutter/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -46,14 +47,16 @@ class PizzaCard extends ConsumerWidget {
             ),
             Align(
               alignment: Alignment.bottomRight,
-              child: ElevatedButton(
+              child: ref.read(userNotifier) != null
+              ? ElevatedButton(
                   onPressed: () => ref.watch(cartStreamProvider.notifier).add(pizza),
                   style: const ButtonStyle(
                     backgroundColor: WidgetStatePropertyAll<Color>(Colors.orangeAccent),
                   ),
                   child: const Row(
                     children: [Text("Add "), Icon(Icons.add)],
-                  )),
+                  ))
+              : Container()
             ),
           ],
         ),

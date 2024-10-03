@@ -7,16 +7,16 @@ import 'package:cours_flutter/views/register/register_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final List<GoRoute> appRoutes = [
+final List<GoRoute> homeRoute = [
   GoRoute(
     path: '/',
     name: "Accueil",
     builder: (context, state) {
-      final ref = ProviderScope.containerOf(context).read;
-      return ref(userNotifier) == null ? LoginPage() : const HomePage();
+      return const HomePage();
     }
-
-  ),
+  )
+];
+final List<GoRoute> appRoutes = [
   GoRoute(
     path: '/panier',
     name: "Panier",
@@ -61,7 +61,7 @@ final List<GoRoute> deconnexionRoutes = [
     builder: (context, state) {
       final ref = ProviderScope.containerOf(context).read;
       ref(userNotifier.notifier).logoutFromFirebase();
-      return LoginPage();
+      return const HomePage();
     },
   )
 ];

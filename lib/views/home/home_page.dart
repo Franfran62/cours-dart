@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:cours_flutter/base/base_scaffold.dart';
 import 'package:cours_flutter/providers/pizza_provider.dart';
+import 'package:cours_flutter/providers/user_provider.dart';
 import 'package:cours_flutter/views/home/widgets/cart_button.dart';
 import 'package:cours_flutter/views/home/widgets/dropdown_size_filter.dart';
 import 'package:cours_flutter/views/home/widgets/pizza_card.dart';
@@ -35,7 +36,7 @@ class HomePage extends ConsumerWidget {
                             children: pizzasList.map((pizza) => PizzaCard(pizza: pizza)).toList(),
                           )
                         : const Text('Aucune pizza trouvée'),
-                    const CartButton(),
+                    ref.read(userNotifier) != null ? const CartButton() : Container(),
                   ],
                 ),
               ));

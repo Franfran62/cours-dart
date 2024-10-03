@@ -1,6 +1,4 @@
 import 'package:cours_flutter/base/base_scaffold.dart';
-import 'package:cours_flutter/base/menu.dart';
-import 'package:cours_flutter/providers/firebase_provider.dart';
 import 'package:cours_flutter/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,8 +23,8 @@ class LoginPage extends ConsumerWidget {
 
         if (isLogged) {
           _formInscriptionKey.currentState!.reset();
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Connexion réussie !")));
-          context.go('/');
+          GoRouter.of(context).go("/");
+          //ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Connexion réussie !")));
         } else {
            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Connexion ratée : Il y a eu un soucis..")));
         }

@@ -35,14 +35,15 @@ class UserNotifier extends StateNotifier<app.User?> {
     try {
       final userCredential = await ref.read(firebaseNotifier.notifier).login(email: email, password: password);
       if (userCredential != null && userCredential.user != null) {
-      final snapshot = await FirebaseFirestore.instance.collection('user').doc(userCredential.user!.uid).get();
-      if (snapshot.exists) {
-        state = app.User.fromSnapshot(snapshot.data());
-        return true;
-      }
+        final snapshot = await FirebaseFirestore.instance.collection('user').doc(userCredential.user!.uid).get();
+        if (snapshot.exists) {
+          state = app.User.fromSnapshot(snapshot.data()!);
+          print(state);
+          return true;
+        }
       }
     } catch (error) {
-      print(error);
+      print(error.toString());
     }
     return false;
   }

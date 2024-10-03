@@ -3,6 +3,7 @@ import 'routes.dart';
 
 final GoRouter router = GoRouter(
   routes: [
+    ...homeRoute,
     ...appRoutes,
     ...connexionRoutes,
     ...deconnexionRoutes,

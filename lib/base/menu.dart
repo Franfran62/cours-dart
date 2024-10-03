@@ -16,8 +16,8 @@ class _MenuState extends ConsumerState<Menu> {
   @override
   Widget build(BuildContext context) {
     List<GoRoute> routes = ref.read(userNotifier.notifier).state == null
-        ? [...connexionRoutes]
-        : [...appRoutes, ...deconnexionRoutes];
+        ? [...homeRoute, ...connexionRoutes]
+        : [...homeRoute, ...appRoutes, ...deconnexionRoutes];
 
     return Drawer(
         shape: const RoundedRectangleBorder(

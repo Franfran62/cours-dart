@@ -36,6 +36,8 @@ class CartStreamNotifier extends StreamNotifier<List<Product>> {
           .update(productAlreadyInCart.toSnapshot());
       return;
     } else {
+      print("je suis bien ici");
+      print(userId);
       await FirebaseFirestore.instance
           .collection('cart')
           .doc(userId)
