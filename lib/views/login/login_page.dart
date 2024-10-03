@@ -86,7 +86,31 @@ class LoginPage extends ConsumerWidget {
                             child: const Text(
                               "Connexion",
                               style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 18),
-                            )))
+                            ))
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 15.0),
+                      child: ElevatedButton.icon(
+                        onPressed: () async {
+                          bool isLogged = await ref.read(userNotifier.notifier).registerWithGoogle();
+                          if (isLogged) {
+                            _formInscriptionKey.currentState!.reset();
+                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Connexion réussie avec Google !")));
+                            context.go('/');
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Connexion ratée avec Google : Il y a eu un soucis..")));
+                          }
+                        },
+                        icon: const Icon(Icons.login, color: Colors.white),
+                        label: const Text(
+                          "Connexion avec Google",
+                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 18),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.redAccent,
+                        ),
+                      ),
+                    )
                   ],
                 )))
       ]),

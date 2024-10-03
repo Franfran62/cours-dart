@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cours_flutter/providers/firebase_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cours_flutter/models/user.dart' as app;
+import 'package:google_sign_in/google_sign_in.dart';
 
 final userProvider = StateProvider<app.User?>((ref) => null);
 
@@ -55,6 +57,43 @@ class UserNotifier extends StateNotifier<app.User?> {
     } catch (error) {
       print(error);
     }
+    return false;
+  }
+
+  Future<bool> registerWithGoogle() async {
+    // try {
+      const List<String> scopes = <String>[
+        'email',
+        'https://www.googleapis.com/auth/contacts.readonly',
+      ];
+
+      GoogleSignIn googleSignIn = GoogleSignIn(
+        // Optional clientId
+        // clientId: 'your-client_id.apps.googleusercontent.com',
+        scopes: scopes,
+      );
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+        print ("--------");
+        print ("--------");
+        print ("--------");
+        print ("--------");
+        print (googleUser);
+
+      if (googleUser != null) {
+        final UserCredential? userCredential = await ref.read(firebaseNotifier.notifier).registerWithGoogle(googleUser: googleUser);
+        print ("--------");
+        print ("--------");
+        print ("--------");
+        print ("--------");
+        print (userCredential?.user);
+        print ("--------");
+      } 
+
+      return true;
+      //return await FirebaseAuth.instance.signInWithCredential(credential);
+    // } catch (e) {
+    //   print(e.toString());
+    // }
     return false;
   }
 }

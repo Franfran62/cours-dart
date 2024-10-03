@@ -1,5 +1,4 @@
 import 'package:cours_flutter/base/menu.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Basescaffold extends StatelessWidget {

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 final firebaseProvider = StateProvider<User?>((ref) => null);
 
@@ -31,6 +32,20 @@ class FirebaseProvider extends StateNotifier<FirebaseAuth?> {
         email: email,
         password: password,
       );
+    } on FirebaseAuthException catch (e) {
+      print(e.message);
+    }
+    return null;
+  }
+
+  Future<UserCredential?> registerWithGoogle({required GoogleSignInAccount googleUser}) async {
+    try {
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+     return await state!.signInWithCredential(credential);
     } on FirebaseAuthException catch (e) {
       print(e.message);
     }

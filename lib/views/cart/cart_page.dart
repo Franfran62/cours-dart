@@ -1,6 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cours_flutter/base/base_scaffold.dart';
-import 'package:cours_flutter/models/product.dart';
 import 'package:cours_flutter/providers/cart_provider.dart';
 import 'package:cours_flutter/views/cart/widgets/cart_card.dart';
 import 'package:flutter/material.dart';

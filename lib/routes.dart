@@ -1,4 +1,3 @@
-import 'package:cours_flutter/providers/firebase_provider.dart';
 import 'package:cours_flutter/providers/user_provider.dart';
 import 'package:cours_flutter/views/cart/cart_page.dart';
 import 'package:cours_flutter/views/home/home_page.dart';

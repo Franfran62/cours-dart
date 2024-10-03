@@ -43,6 +43,9 @@ dependencies:
   go_router: ^14.2.8
   hooks_riverpod: ^2.5.2
   flutter_hooks: ^0.20.5
+  google_sign_in: ^6.2.1
+  google_sign_in_android: ^6.1.30
+  flutter_signin_button: ^2.0.0
 
 dev_dependencies:
   flutter_test:

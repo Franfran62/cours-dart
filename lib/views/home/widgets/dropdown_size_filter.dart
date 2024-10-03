@@ -36,7 +36,7 @@ class DropDownSizeFilter extends HookConsumerWidget {
                 value: el,
                 child: Text(el.name.toString()),
               );
-            }).toList(),
+            }),
             ]
           ),
         ],
