@@ -27,6 +27,8 @@ class LoginPage extends ConsumerWidget {
           _formInscriptionKey.currentState!.reset();
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Connexion réussie !")));
           context.go('/');
+        } else {
+           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Connexion ratée : Il y a eu un soucis..")));
         }
       }
     }

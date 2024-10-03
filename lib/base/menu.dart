@@ -16,7 +16,7 @@ class _MenuState extends ConsumerState<Menu> {
   @override
   Widget build(BuildContext context) {
     List<GoRoute> routes = ref.read(userNotifier.notifier).state == null
-        ? [...appRoutes, ...connexionRoutes]
+        ? [...connexionRoutes]
         : [...appRoutes, ...deconnexionRoutes];
 
     return Drawer(

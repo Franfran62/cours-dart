@@ -11,12 +11,19 @@ final List<GoRoute> appRoutes = [
   GoRoute(
     path: '/',
     name: "Accueil",
-    builder: (context, state) => const HomePage(),
+    builder: (context, state) {
+      final ref = ProviderScope.containerOf(context).read;
+      return ref(userNotifier) == null ? LoginPage() : const HomePage();
+    }
+
   ),
   GoRoute(
     path: '/panier',
     name: "Panier",
-    builder: (context, state) => const CartPage(),
+    builder: (context, state) { 
+      final ref = ProviderScope.containerOf(context).read;
+      return ref(userNotifier) == null ? LoginPage() : const CartPage();
+    }
   ),
 ];
 
@@ -24,12 +31,18 @@ final List<GoRoute> connexionRoutes = [
   GoRoute(
     path: '/inscription',
     name: "Inscription",
-    builder: (context, state) => const RegisterPage(),
+    builder: (context, state) {
+      final ref = ProviderScope.containerOf(context).read;
+      return ref(userNotifier) == null ? const RegisterPage() : const HomePage();
+    } 
   ),
   GoRoute(
     path: '/connexion',
     name: "Connexion",
-    builder: (context, state) => LoginPage(),
+    builder: (context, state) { 
+      final ref = ProviderScope.containerOf(context).read;
+      return ref(userNotifier) == null ? LoginPage() : const HomePage();
+    }
   ),
 ];
 

@@ -1,5 +1,5 @@
 import 'package:cours_flutter/base/base_scaffold.dart';
-import 'package:cours_flutter/models/promo.dart';
+import 'package:cours_flutter/models/enums/promo.dart';
 import 'package:cours_flutter/models/user.dart';
 import 'package:cours_flutter/providers/user_provider.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +44,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
       if (registering) {
         _formInscriptionKey.currentState!.reset();
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Inscription réussie !")));
-      }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Inscription ratée : Il y a eu un soucis..")));
+        }
     }
   }
 

@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cours_flutter/models/promo.dart';
+import 'package:cours_flutter/models/enums/promo.dart';
 
 class User {
   String? id;
